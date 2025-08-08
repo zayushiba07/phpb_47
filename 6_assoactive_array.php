@@ -13,4 +13,16 @@ print_r($book);
 echo "<br>";
 unset($employee["id"]);
 print_r($employee);
+
+foreach($book as $b)
+{
+    echo"<br>";
+    echo $b;
+}
+
+foreach($employee as $key=>$value)
+{
+    echo"<br>";
+    echo "$key as $value";
+}
 ?>
