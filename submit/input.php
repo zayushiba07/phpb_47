@@ -13,9 +13,7 @@
     }
     else
     {
-         $amount = $_POST['amount'];
-        $year = $_POST['year'];
-        $rate = $_POST['rate'];
+         extract($_POST);
         $si = ($amount*$year*$rate)/100;
         echo $si;
     }
