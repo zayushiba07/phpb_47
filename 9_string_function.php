@@ -52,7 +52,7 @@ echo "<br>";
 
     print_r(str_split("abcdefghijklmnopqrstuvwxyz",3));
 
-
+    echo "<br>";
     if(strcmp("banana","apple")>0)
     {
         echo "string1 is greater than string2";
@@ -61,4 +61,15 @@ echo "<br>";
     {
         echo "both are not greater than string2";
     }
+
+    echo "<br>";
+
+    $pra = "Success in life does not come overnight; it is the result of hard work, dedication, and patience. Every individual faces challenges, but those who continue to move forward without giving up are the ones who achieve their dreams. Hard work builds confidence and creates opportunities that talent alone cannot guarantee.";
+
+    $break = wordwrap($pra,50,"<br>");
+    echo $break;
+    echo "<br>";
+    echo substr("abcdef",0);
+    echo "<br>";
+    echo substr("abcdef",1,13);
 ?>
