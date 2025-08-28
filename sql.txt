@@ -1,0 +1,21 @@
+====================insert ============================================
+insert into student (name,age,weight) values ("Ayushiba",21,52.30);
+insert into student (name,age,weight) values ("anu",21,82.30);
+insert into student (name,age,weight) values ("ram",56,80.30);
+insert into student (name,age,weight) values ("radha",45,75.30);
+insert into student (name,age,weight) values ("rajan",32,52.30);
+
+insert into student values('',"krish",23,60.23);
+
+
+===================Delete================================
+
+Delete from tablename where condition;
+
+Delete from student where id=4;
+
+===================select================================
+SELECT * from student;
+SELECT * from student where id=6;
+select * from student where age>=24;
+
