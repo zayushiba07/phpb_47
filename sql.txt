@@ -14,8 +14,30 @@ Delete from tablename where condition;
 
 Delete from student where id=4;
 
+
+===================update=====================
+
+update tablename set fildname where condition;
+UPDATE stud set Student_Name="Ayushiba" WHERE id=3;
+
+
 ===================select================================
 SELECT * from student;
 SELECT * from student where id=6;
 select * from student where age>=24;
+SELECT * from stud WHERE Degree="BCA" AND gender="f";
+SELECT * from stud WHERE Degree="BCA" OR Degree="BSCIT";
+select Student_Name from stud order by Student_Name;
+select Student_Name from stud order by Student_Name DESC;
+SELECT * from customers WHERE state is NOT NULL;
+SELECT * from customers WHERE state is NULL;
+SELECT * FROM stud WHERE Student_Name LIKE "%a";
+SELECT * FROM stud WHERE Student_Name LIKE "a%";
+SELECT * FROM stud WHERE Student_Name LIKE "%a%";
+SELECT * FROM stud WHERE Student_Name LIKE "____";
+
+=========== AUTO_INCREMENT======================
+ALTER TABLE student AUTO_INCREMENT = 1;
+
+
 
