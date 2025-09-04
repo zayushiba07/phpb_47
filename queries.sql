@@ -31,6 +31,22 @@ SELECT * FROM stud WHERE student_name LIKE "____";
 SELECT * FROM `customers` WHERE dob < '1999-01-01';
 SELECT * FROM `users` WHERE email LIKE '%.%@%';
 SELECT * FROM `users` WHERE (name LIKE 'n%' AND gender = 'Male') OR user_occupation = 'Teacher';
+SELECT * FROM `users` ORDER BY gender, user_occupation DESC; 
+SELECT COUNT(*), users.* FROM `users` GROUP BY user_occupation ORDER BY COUNT(*); 
+SELECT AVG(height) `Avg Height`, MAX(height) max_height, MIN(height) min_height, users.* FROM `users` GROUP BY gender;
+SELECT SUM(weight) weight_sum, users.* FROM `users` GROUP BY gender;
+SELECT (DATEDIFF(NOW(), date_of_birth) / 365) age, users.* FROM `users`;
+SELECT CURRENT_DATE(), DATE(NOW());
+SELECT CASE gender WHEN 'Male' THEN 'M' WHEN 'Female' THEN 'F' END, users.* FROM users; 
+SELECT (CASE gender WHEN 'Male' THEN 'M' ELSE 'F' END) gender, users.* FROM users;
+SELECT (IF(gender = 'Male', 'M', 'F')) gender, users.* FROM users;
+SELECT CEIL(AVG(height)) avg_height, FLOOR(AVG(weight)) avg_weight, users.* FROM users GROUP BY gender;
+SELECT CEIL(12.34) `ceil`, FLOOR(67.89) `floor`; -- 13, 67
+SELECT ROUND(12.34); -- 12
+SELECT ROUND(12.64); -- 13
+SELECT ROUND(12.66, 1); -- 12.7
+SELECT ROUND(12.66, -1); -- 10
+SELECT ROUND(15.66, -1); -- 20
 
 ==================== AUTO_INCREMENT ====================
 ALTER TABLE student AUTO_INCREMENT = 1;
