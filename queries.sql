@@ -37,7 +37,7 @@ SELECT AVG(height) `Avg Height`, MAX(height) max_height, MIN(height) min_height,
 SELECT SUM(weight) weight_sum, users.* FROM `users` GROUP BY gender;
 SELECT (DATEDIFF(NOW(), date_of_birth) / 365) age, users.* FROM `users`;
 SELECT CURRENT_DATE(), DATE(NOW());
-SELECT CASE gender WHEN 'Male' THEN 'M' WHEN 'Female' THEN 'F' END, users.* FROM users; 
+SELECT (CASE gender WHEN 'Male' THEN 'M' WHEN 'Female' THEN 'F' END) gender, users.* FROM users; 
 SELECT (CASE gender WHEN 'Male' THEN 'M' ELSE 'F' END) gender, users.* FROM users;
 SELECT (IF(gender = 'Male', 'M', 'F')) gender, users.* FROM users;
 SELECT CEIL(AVG(height)) avg_height, FLOOR(AVG(weight)) avg_weight, users.* FROM users GROUP BY gender;
@@ -47,6 +47,13 @@ SELECT ROUND(12.64); -- 13
 SELECT ROUND(12.66, 1); -- 12.7
 SELECT ROUND(12.66, -1); -- 10
 SELECT ROUND(15.66, -1); -- 20
+SELECT id, CONCAT(first_name, ' ', last_name) full_name FROM `users`; 
+SELECT id, CONCAT(MID(name, 1, LOCATE(' ', name)), father_name) full_name, name, father_name FROM `users`;
+SELECT id, CONCAT(SUBSTRING_INDEX(name, ' ', 1), ' ', father_name) full_name FROM `users`;
+SELECT u.id, u.name, m.message, m.created_at FROM users u, messages m WHERE u.id = m.user_id_1 AND u.id = 1;
+SELECT u.id, u.name, m.message, m.created_at FROM users u JOIN messages m ON u.id = m.user_id_1 WHERE u.id = 1;
+SELECT u.id, u.name, m.message, m.created_at FROM users u LEFT JOIN messages m ON u.id = m.user_id_1 WHERE u.id = 3;
+SELECT u.id, u.name, m.message, m.created_at FROM messages m RIGHT JOIN users u ON u.id = m.user_id_1 WHERE u.id = 3;
 
 ==================== AUTO_INCREMENT ====================
 ALTER TABLE student AUTO_INCREMENT = 1;
