@@ -54,6 +54,26 @@ SELECT u.id, u.name, m.message, m.created_at FROM users u, messages m WHERE u.id
 SELECT u.id, u.name, m.message, m.created_at FROM users u JOIN messages m ON u.id = m.user_id_1 WHERE u.id = 1;
 SELECT u.id, u.name, m.message, m.created_at FROM users u LEFT JOIN messages m ON u.id = m.user_id_1 WHERE u.id = 3;
 SELECT u.id, u.name, m.message, m.created_at FROM messages m RIGHT JOIN users u ON u.id = m.user_id_1 WHERE u.id = 3;
+SELECT * FROM `users` LIMIT 4 OFFSET 10;
+SELECT * FROM `users` LIMIT 10, 4;
 
 ==================== AUTO_INCREMENT ====================
 ALTER TABLE student AUTO_INCREMENT = 1;
+ALTER TABLE a CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE table1 CHANGE field1 field2 INT NOT NULL DEFAULT 11;
+ALTER TABLE table1 CHANGE field2 field3 VARCHAR(22) NOT NULL DEFAULT '',
+	ADD gender ENUM('Male', 'Female') NOT NULL DEFAULT 'Male' FIRST,
+	ADD name VARCHAR(33) NOT NULL DEFAULT '' AFTER gender;
+ALTER TABLE table1 RENAME COLUMN name TO full_name;
+ALTER TABLE table1 RENAME TO table2;
+
+8 bits (1 Byte) TinyInt Signed -128 to 127
+8 bits (1 Byte) TinyInt Unsigned 0 to 255
+16 bits (2 Bytes) SmallInt Signed -32,768 to 32,767
+16 bits (2 Bytes) SmallInt Unsigned 0 to 65,535
+24 bits (3 Bytes) MediumInt Signed -83,88,608 to 83,88,607
+24 bits (3 Bytes) MediumInt Unsigned 0 to 1,67,77,216
+32 bits (4 Bytes) Int Signed -2,14,74,83,648 to 2,14,74,83,647
+32 bits (4 Bytes) Int Unsigned 0 to 4,29,49,67,296
+64 bits (8 Bytes) BigInt Signed -92,23,37,20,37,09,54,83,064 to 92,23,37,20,37,09,54,83,063
+64 bits (8 Bytes) BigInt Unsigned 0 to 1,84,46,74,40,73,70,95,51,615
