@@ -41,7 +41,7 @@ SELECT (CASE gender WHEN 'Male' THEN 'M' WHEN 'Female' THEN 'F' END) gender, use
 SELECT (CASE gender WHEN 'Male' THEN 'M' ELSE 'F' END) gender, users.* FROM users;
 SELECT (IF(gender = 'Male', 'M', 'F')) gender, users.* FROM users;
 SELECT CEIL(AVG(height)) avg_height, FLOOR(AVG(weight)) avg_weight, users.* FROM users GROUP BY gender;
-SELECT CEIL(12.34) `ceil`, FLOOR(67.89) `floor`; -- 13, 67
+SELECT CEILING(12.34) `ceiling`, FLOOR(67.89) `floor`; -- 13, 67
 SELECT ROUND(12.34); -- 12
 SELECT ROUND(12.64); -- 13
 SELECT ROUND(12.66, 1); -- 12.7
@@ -56,6 +56,15 @@ SELECT u.id, u.name, m.message, m.created_at FROM users u LEFT JOIN messages m O
 SELECT u.id, u.name, m.message, m.created_at FROM messages m RIGHT JOIN users u ON u.id = m.user_id_1 WHERE u.id = 3;
 SELECT * FROM `users` LIMIT 4 OFFSET 10;
 SELECT * FROM `users` LIMIT 10, 4;
+SELECT * FROM `users` WHERE email REGEXP '^n';
+SELECT * FROM `users` WHERE email RLIKE '^[abc]';
+SELECT * FROM `users` WHERE email RLIKE 'g$';
+SELECT * FROM `users` WHERE email RLIKE '^n[i]';
+SELECT * FROM `users` WHERE email RLIKE '^n[ieo]';
+SELECT * FROM `users` WHERE email RLIKE '^n[^ieo]';
+SELECT * FROM `users` WHERE email RLIKE '^n[^a-h]';
+SELECT * FROM `users` WHERE email RLIKE '[0-9]';
+SELECT * FROM `users` WHERE name REGEXP '^[aeiou].*[aeiou]$'; -- names which starts and ends with a vowel
 
 ==================== AUTO_INCREMENT ====================
 ALTER TABLE student AUTO_INCREMENT = 1;
