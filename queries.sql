@@ -5,6 +5,9 @@ INSERT INTO student (name, age, weight) VALUES ("ram", 56, 80.30);
 INSERT INTO student (name, age, weight) VALUES ("radha", 45, 75.30);
 INSERT INTO student (name, age, weight) VALUES ("rajan", 32, 52.30);
 INSERT INTO student VALUES ('', "krish", 23, 60.23);
+INSERT INTO admins (name, password) VALUES ('Nikunj', '12345'), ('Akash', 'asdffgh'), ('Vijay', 'zxcvbnm');
+INSERT INTO admins VALUES (null, 'Parmarth', 'poiuyt'), (null, 'Vishal', '876876');
+INSERT INTO admins SET name = 'Paresh', password = '987654'; 
 
 ==================== DELETE ====================
 DELETE FROM tablename WHERE condition;
@@ -65,6 +68,25 @@ SELECT * FROM `users` WHERE email RLIKE '^n[^ieo]';
 SELECT * FROM `users` WHERE email RLIKE '^n[^a-h]';
 SELECT * FROM `users` WHERE email RLIKE '[0-9]';
 SELECT * FROM `users` WHERE name REGEXP '^[aeiou].*[aeiou]$'; -- names which starts and ends with a vowel
+
+SELECT id, name, '' height FROM admins
+UNION
+SELECT id, name, height FROM users;
+
+SELECT * FROM (
+	SELECT id, name FROM admins
+	UNION
+    SELECT id, name FROM users
+) tbl1 LIMIT 15;
+
+SELECT * FROM (
+	SELECT id, name, '' height FROM admins
+	UNION
+    SELECT id, name, height FROM users
+) tbl1 LIMIT 15;
+
+SELECT u.id, name, COUNT(c.user_id_1) connected_users FROM users u LEFT JOIN contacts c ON u.id = c.user_id_1 GROUP BY u.id;
+SELECT u.id, name, (SELECT COUNT(user_id_1) FROM contacts c WHERE c.user_id_1 = u.id GROUP BY c.user_id_1) connected_users FROM users u;
 
 ==================== AUTO_INCREMENT ====================
 ALTER TABLE student AUTO_INCREMENT = 1;
