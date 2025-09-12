@@ -1,4 +1,5 @@
 <?php
+session_start();
 $db = new mysqli('localhost', 'root', '', 'matrimonial');
 $user = new stdClass();
 
@@ -15,34 +16,87 @@ if($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$qry = "DELETE FROM users WHERE id = ?";
 		$stmt = $db->prepare($qry);
 		$stmt->bind_param('i', $_GET['delete']);
-		$stmt->execute();
 
-		if($stmt->affected_rows > 0) {
-			echo '<p style="color: green; text-align: center">User deleted successfully</p>';
-		}
-		else {
-			echo '<p style="color: red; text-align: center">Error deleting user: ' . $stmt->error . '</p>';
-		}
+		if(!$stmt->execute())
+			$_SESSION['error'] = $stmt->error;
+
+		$_SESSION['delete'] = $stmt->affected_rows;
+		header('Location: 20_mysql_CRUD.php');
+		exit;
 	}
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$qry = "INSERT INTO users (name, email, password, gender, date_of_birth, phone, user_occupation, height, weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	$stmt = $db->prepare($qry);
-	$stmt->bind_param('sssssssii', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), $_POST['gender'], $_POST['date_of_birth'], $_POST['phone'], $_POST['user_occupation'], $_POST['height'], $_POST['weight']);
-	$stmt->execute();
+	if(isset($_GET['edit'])) {
+		if($_POST['password'] == '') {
+			$qry = "UPDATE users SET name = ?, email = ?, gender = ?, date_of_birth = ?, phone = ?, user_occupation = ?, height = ?, weight = ? WHERE id = ?";
+			$stmt = $db->prepare($qry);
+			$stmt->bind_param('ssssssiii', $_POST['name'], $_POST['email'], $_POST['gender'], $_POST['date_of_birth'], $_POST['phone'], $_POST['user_occupation'], $_POST['height'], $_POST['weight'], $_GET['edit']);
+		}
+		else {
+			$qry = "UPDATE users SET name = ?, email = ?, password = ?, gender = ?, date_of_birth = ?, phone = ?, user_occupation = ?, height = ?, weight = ? WHERE id = ?";
+			$stmt = $db->prepare($qry);
+			$stmt->bind_param('sssssssiii', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), $_POST['gender'], $_POST['date_of_birth'], $_POST['phone'], $_POST['user_occupation'], $_POST['height'], $_POST['weight'], $_GET['edit']);
+		}
 
-	if($stmt->affected_rows > 0) {
-		echo '<p style="color: green; text-align: center">User added successfully</p>';
+		if(!$stmt->execute())
+			$_SESSION['error'] = $stmt->error;
+		
+		$_SESSION['edit'] = $stmt->affected_rows;
+		header('Location: 20_mysql_CRUD.php');
+		exit;
 	}
 	else {
-		echo '<p style="color: red; text-align: center">Error adding user: ' . $stmt->error . '</p>';
+		$qry = "INSERT INTO users (name, email, password, gender, date_of_birth, phone, user_occupation, height, weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$stmt = $db->prepare($qry);
+		$stmt->bind_param('sssssssii', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), $_POST['gender'], $_POST['date_of_birth'], $_POST['phone'], $_POST['user_occupation'], $_POST['height'], $_POST['weight']);
+
+		if(!$stmt->execute())
+			$_SESSION['error'] = $stmt->error;
+
+		$_SESSION['insert'] = $stmt->insert_id;
+		header('Location: 20_mysql_CRUD.php');
+		exit;
+	}
+}
+
+if(isset($_SESSION['insert'])) {
+	$result = $_SESSION['insert'];
+	unset($_SESSION['insert']);
+
+	if($result > 0) {
+		echo '<p style="color: green; text-align: center">User added successfully.</p>';
+	}
+	else {
+		echo "<p style='color: red; text-align: center'>Unable to add user.<br>Error: {$_SESSION['error']}</p>";
+	}
+}
+elseif(isset($_SESSION['edit'])) {
+	$result = $_SESSION['edit'];
+	unset($_SESSION['edit']);
+
+	if($result > 0) {
+		echo '<p style="color: green; text-align: center">User updated successfully.</p>';
+	}
+	else {
+		echo "<p style='color: red; text-align: center'>Unable to update user.<br>Error: {$_SESSION['error']}</p>";
+	}
+}
+elseif(isset($_SESSION['delete'])) {
+	$result = $_SESSION['delete'];
+	unset($_SESSION['delete']);
+
+	if($result > 0) {
+		echo '<p style="color: green; text-align: center">User deleted successfully.</p>';
+	}
+	else {
+		echo "<p style='color: red; text-align: center'>Unable to delete user.<br>Error: {$_SESSION['error']}</p>";
 	}
 }
 ?>
 <style>
 form th { text-align: right; }
 </style>
-<form method="<?= isset($_GET['edit']) ? 'PUT' : 'POST' ?>">
+<form method="POST">
 	<table cellpadding=6 cellspacing=0 style="margin:auto">
 		<tr>
 			<th><label for="name">Name</label></th>
@@ -54,7 +108,7 @@ form th { text-align: right; }
 		</tr>
 		<tr>
 			<th><label for="password">Password</label></th>
-			<td><input type="password" name="password" id="password" required></td>
+			<td><input type="password" name="password" id="password" <?= isset($_GET['edit']) ? '' : 'required' ?>></td>
 		</tr>
 		<tr>
 			<th><label>Gender</label></th>
